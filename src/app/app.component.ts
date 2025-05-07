@@ -11,16 +11,22 @@ import { CommonModule } from '@angular/common';
 
     <button (click)="visible = !visible">Click me</button>
     <button (click)="changeId()">Change id {{id}}</button>
+    <button (click)="doNothing()">do nothing </button>
+    <input type="text" (keydown)="doNothing()" />
 
-    <div *ngIf="visible">
-    <app-user-profile [id]="id" />
-    </div>
+
+   
+    <app-user-profile [id]="id" [visible]="visible"  />
+ 
     
     <router-outlet />
   `,
   styles: [],
 })
 export class AppComponent {
+doNothing() {
+  console.log("nothing")
+}
   title = 'angular-lifecycle-change-detection-strategy';
   id: number= 1;
   visible: boolean = true;

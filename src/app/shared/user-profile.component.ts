@@ -1,41 +1,61 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, Input, input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { User } from '../../models/User';
 
 @Component({
   selector: "app-user-profile",
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
   template: `
     <p>
       user-profile works!
     </p>
     <pre>{{user | json}}</pre>
+    <pre>{{visible}}</pre>
+
+    {{ renderMe()}}
   `,
   styles: ``
 })
 export class UserProfileComponent implements OnInit,OnChanges,OnDestroy {
 
   @Input() id: number | undefined
-  timer : ReturnType<typeof setTimeout> | undefined;
+  @Input() visible: boolean | undefined
+
+//  timer : ReturnType<typeof setTimeout> | undefined;
   http = inject(HttpClient);
   user: User | undefined
 
   constructor(){
     console.log("constructor id = ",this.id);
 
-    this.timer = setInterval(() => {
+    /* this.timer = setInterval(() => {
       console.log("timer");
-    }, 1000);
+    }, 1000); */
   }
   
   ngOnChanges(changes: SimpleChanges): void {
     console.log("OnChanges id = ",this.id);
-    this.http.get<User>(`https://jsonplaceholder.typicode.com/users/${this.id}`
-    ).subscribe( res => {
-      console.log("res: ",res);
-      this.user = res
-    })
+    console.log("OnChanges visible = ",this.visible);
+  
+    console.log("OnChanges changes = ", changes);
+
+    if (changes["id"]){
+      this.http
+      .get<User>(`https://jsonplaceholder.typicode.com/users/${changes["id"].currentValue}`)
+      .subscribe( res => {
+        console.log("res: ",res);
+        this.user = res
+      })
+    }
+
+    if(changes["visible"]){
+      console.log("OnChanges visible = ",this.visible);
+
+    }
+
+   
   }
 
   
@@ -45,6 +65,10 @@ export class UserProfileComponent implements OnInit,OnChanges,OnDestroy {
 
   ngOnDestroy(): void {
     console.log("OnDestroy id = ",this.id);
-    clearInterval(this.timer);
+    // clearInterval(this.timer);
+  }
+
+  renderMe(){
+    console.log("render me");
   }
 }
