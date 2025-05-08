@@ -57,6 +57,9 @@ export class UserProfileComponent implements OnInit,OnChanges,OnDestroy {
         this.user = res
                 // ChangeDetectorRef è utilizzato per forzare l'aggiornamento dei componenti. senza che ci siano modifiche
                 this.cdr.markForCheck();
+                // this.cdr.detach() da studiare
+                // this.cdr.detectChanges() da studiare
+                // this.cdr.reattach() da studiare
       })
     }
 
