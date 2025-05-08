@@ -9,10 +9,10 @@ import { CommonModule } from '@angular/common';
   template: `
     <h1>Welcome to {{title}}!</h1>
 
-    <button (click)="visible = !visible">Click me</button>
+    <button (click)="visible = !visible">Show / Hide </button>
     <button (click)="changeId()">Change id {{id}}</button>
     <button (click)="doNothing()">do nothing </button>
-    <input type="text" (keydown)="doNothing()" />
+    <input type="text" (keydown)="doNothing()" placeholder="doNothingByTyping" />
 
 
    
@@ -24,9 +24,8 @@ import { CommonModule } from '@angular/common';
   styles: [],
 })
 export class AppComponent {
-doNothing() {
-  console.log("nothing")
-}
+
+
   title = 'angular-lifecycle-change-detection-strategy';
   id: number= 1;
   visible: boolean = true;
@@ -35,6 +34,10 @@ doNothing() {
     console.log("COnstructor app root");
   }
 
+  doNothing() {
+    console.log("nothing")
+  }
+ 
   changeId() {
     console.log("changed id");
     if(this.id  == 10){
